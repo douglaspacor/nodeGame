@@ -1,6 +1,6 @@
-var USE_DB = true;
-var mongojs = USE_DB ? require("mongodb") : null;
-var db = USE_DB ? mongojs('localhost:27017/myGame', ['account','progress']) : null;
+var USE_DB = false;
+var mongojs = /*USE_DB ? require("mongodb") : */null;
+var db = /*USE_DB ? mongojs('localhost:27017/myGame', ['account','progress']) : */null;
 
 //account:  {username:string, password:string}
 //progress:  {username:string, items:[{id:string,amount:number}]}
