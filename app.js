@@ -12,8 +12,10 @@ app.get('/',function(req, res) {
 });
 app.use('/client',express.static(__dirname + '/client'));
 
-serv.listen(process.env.PORT || 2000);
-console.log("Server started.");
+serv.listen(global.config.app.port, () => {
+	console.log(`Server started on port ${global.config.app.port}.`);
+});
+
 
 var SOCKET_LIST = {};
 
@@ -26,7 +28,7 @@ io.sockets.on('connection', function(socket){
 	socket.id = Math.random();
 	SOCKET_LIST[socket.id] = socket;
 	
-	socket.on('signIn',function(data){ //{username,password}
+	socket.on('signIn',function(data){
 		Database.isValidPassword(data,function(res){
 			if(!res)
 				return socket.emit('signInResponse',{success:false});
@@ -77,23 +79,7 @@ setInterval(function(){
 	
 },1000/25);
 
-/*
-var profiler = require('v8-profiler');
-var fs = require('fs');
-var startProfiling = function(duration){
-	profiler.startProfiling('1', true);
-	setTimeout(function(){
-		var profile1 = profiler.stopProfiling('1');
-		
-		profile1.export(function(error, result) {
-			fs.writeFile('./profile.cpuprofile', result);
-			profile1.delete();
-			console.log("Profile saved.");
-		});
-	},duration);	
-}
-startProfiling(10000);
-*/
+
 
 
 
